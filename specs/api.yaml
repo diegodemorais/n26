@@ -1,0 +1,84 @@
+swagger: "2.0"
+info:
+  description: "This is the N26 Backend Challenge for Diego de Morais."
+  version: "1.0.0"
+  title: "Diego's Backend Challenge"
+tags:
+- name: "transactions"
+  description: "Post a transaction"
+- name: "statistics"
+  description: "Get statistics from last 60 seconds"
+schemes:
+- "http"
+paths:
+  /transactions:
+    post:
+      tags:
+      - "transactions"
+      summary: "Add a new Transaction"
+      description: ""
+      operationId: "addTransaction"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Transaction"
+        required: true
+        schema:
+          $ref: "#/definitions/Transaction"
+      responses:
+        201:
+          description: "Successful transaction"
+        204:
+          description: "Transaction is older than 60 seconds"          
+  /statistics:
+    get:
+      tags:
+      - "statistics"
+      summary: "Get statistics from last 60 seconds"
+      description: ""
+      operationId: "getStatistics"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Statistic"
+definitions:
+  Transaction:
+    type: "object"
+    required:
+    - "amount"
+    - "timestamp"
+    properties:
+      amount:
+        type: "number"
+        format: "double"
+      timestamp:
+         type: "string"
+  Statistic:
+    type: "object"
+    required:
+    - "sum"
+    - "avg"
+    - "max"
+    - "min"
+    - "count"
+    properties:
+      amount:
+        type: "number"
+        format: "double"
+      avg:
+        type: "number"
+        format: "double"
+      max:
+        type: "number"
+        format: "double"        
+      min:
+        type: "number"
+        format: "double"        
+      count:
+        type: "integer"
+        format: "int64"        
