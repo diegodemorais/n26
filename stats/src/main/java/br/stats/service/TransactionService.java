@@ -3,6 +3,6 @@ package br.stats.service;
 import br.stats.model.Transaction;
 
 public interface TransactionService {
-	void addTransaction(Transaction json);
+	public void addTransaction(Transaction json) throws Exception;
 
 }

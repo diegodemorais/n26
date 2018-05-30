@@ -1,13 +1,16 @@
 package br.stats.model;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.NotNull;
+
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import br.stats.utils.DateUtil;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Statistic
@@ -15,8 +18,8 @@ import javax.validation.constraints.*;
 @Validated
 
 public class Statistic   {
-  @JsonProperty("amount")
-  private Double amount = null;
+  @JsonProperty("sum")
+  private Double sum = null;
 
   @JsonProperty("avg")
   private Double avg = null;
@@ -29,9 +32,33 @@ public class Statistic   {
 
   @JsonProperty("count")
   private Long count = null;
+  
+  private LocalDateTime dateTime = null;
 
-  public Statistic amount(Double amount) {
-    this.amount = amount;
+  public Statistic() {
+		setDateTime(LocalDateTime.now());
+		setSum(0d);
+		setAvg(0d);
+		setMax(Double.MIN_VALUE);
+		setMin(Double.MAX_VALUE);
+		setCount(0l);
+  }
+  
+  public Statistic dateTime(LocalDateTime dateTime) {
+	    this.dateTime = dateTime;
+	    return this;
+  }
+  
+  public LocalDateTime getDateTime() {
+	  return dateTime;
+  }
+  
+  public void setDateTime(LocalDateTime dateTime) {
+	  this.dateTime = dateTime;
+  }
+  
+  public Statistic sum(Double sum) {
+    this.sum = sum;
     return this;
   }
 
@@ -42,12 +69,12 @@ public class Statistic   {
   @ApiModelProperty(value = "")
 
 
-  public Double getAmount() {
-    return amount;
+  public Double getSum() {
+    return sum;
   }
 
-  public void setAmount(Double amount) {
-    this.amount = amount;
+  public void setSum(Double sum) {
+    this.sum = sum;
   }
 
   public Statistic avg(Double avg) {
@@ -144,7 +171,7 @@ public class Statistic   {
       return false;
     }
     Statistic statistic = (Statistic) o;
-    return Objects.equals(this.amount, statistic.amount) &&
+    return Objects.equals(this.sum, statistic.sum) &&
         Objects.equals(this.avg, statistic.avg) &&
         Objects.equals(this.max, statistic.max) &&
         Objects.equals(this.min, statistic.min) &&
@@ -153,7 +180,7 @@ public class Statistic   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(amount, avg, max, min, count);
+    return Objects.hash(sum, avg, max, min, count);
   }
 
   @Override
@@ -161,7 +188,7 @@ public class Statistic   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Statistic {\n");
     
-    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    sum: ").append(toIndentedString(sum)).append("\n");
     sb.append("    avg: ").append(toIndentedString(avg)).append("\n");
     sb.append("    max: ").append(toIndentedString(max)).append("\n");
     sb.append("    min: ").append(toIndentedString(min)).append("\n");

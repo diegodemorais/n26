@@ -20,7 +20,16 @@ public class Transaction   {
 
   @JsonProperty("timestamp")
   private Long timestamp = null;
-
+  
+  public Transaction(){
+  }
+  
+  public Transaction(Double amount, Long timestamp) {
+	  setAmount(amount);
+	  setTimestamp(timestamp);
+  }
+  
+  
   public Transaction amount(Double amount) {
     this.amount = amount;
     return this;

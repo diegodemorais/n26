@@ -1,19 +1,22 @@
 package br.stats.service.impl;
 
 
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import br.stats.model.Transaction;
+import br.stats.service.StatisticService;
 import br.stats.service.TransactionService;
 
+@Service
 public class TransactionServiceImpl implements TransactionService {
 
-	public SortedMap<Long,Double> transactions = new TreeMap<>();
+	@Autowired
+	StatisticService statisticService;
 	
-	public void addTransaction(Transaction json) {
-		transactions.put(json.getTimestamp(), json.getAmount());
+	@Override
+	public void addTransaction(Transaction json) throws Exception {
+		statisticService.addStatistic(json);
 	}	
+	
 }
