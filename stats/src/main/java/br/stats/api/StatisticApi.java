@@ -39,12 +39,7 @@ public class StatisticApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     public ResponseEntity<Statistic> getStatistics(){
-    	 String accept = request.getHeader("Accept");
-         if (accept != null && accept.contains("application/json")) {
          	return new ResponseEntity<Statistic>(statisticService.getStatistic(), HttpStatus.OK);
-         } else {
-             return new ResponseEntity<Statistic>(HttpStatus.NOT_IMPLEMENTED);        	 
-         }
     };
 
 }

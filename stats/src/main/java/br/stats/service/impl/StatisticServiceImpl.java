@@ -22,7 +22,7 @@ import br.stats.utils.DateUtil;
 @Service
 public class StatisticServiceImpl implements StatisticService {
 	
-	public final Long INTERVAL = 60l;
+	public final Long INTERVAL = 60000l;
 		
 	private Queue<Long> statisticsTime;
 	private Map<Long, Statistic> statistics;
