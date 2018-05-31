@@ -7,9 +7,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.PriorityBlockingQueue;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +22,14 @@ import br.stats.service.StatisticService;
 import br.stats.utils.DateUtil;
 
 @EnableScheduling
+@Configuration
 @Service
 public class StatisticServiceImpl implements StatisticService {
+	
+	@Bean
+    public TaskScheduler taskScheduler() {
+        return new ConcurrentTaskScheduler();
+    }
 	
 	public final Long INTERVAL = 60000l;
 		
@@ -47,14 +56,14 @@ public class StatisticServiceImpl implements StatisticService {
 	@Override
 	public void addStatistic(Transaction transaction) throws Exception {
 		Long now = DateUtil.converToTimeStamp(LocalDateTime.now());
-		Long transactionTime = transaction.getTimestamp();
+		Long transactionTime = DateUtil.converToTimeStamp(transaction.getDate());
 		
 		if (transactionTime + INTERVAL < now) throw new Exception();
 		
 		for(Long i = now; i < transactionTime + INTERVAL; i+=1000) {
 			Statistic statistic = this.statistics.get(i);
 			if (statistic == null) {
-				statistic = new Statistic();
+				statistic = new Statistic(i);
 				this.statistics.put(i, statistic);
 				this.statisticsTime.add(i);
 			}
@@ -75,7 +84,7 @@ public class StatisticServiceImpl implements StatisticService {
 		Long now = DateUtil.converToTimeStamp(LocalDateTime.now());
 		Statistic statistic = this.statistics.get(now);
 		if (statistic == null) 
-			statistic = new Statistic();
+			statistic = new Statistic(now);
 		
 		return statistic;
 	}

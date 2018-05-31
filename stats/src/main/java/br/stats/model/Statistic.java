@@ -35,8 +35,8 @@ public class Statistic   {
   
   private LocalDateTime dateTime = null;
 
-  public Statistic() {
-		setDateTime(LocalDateTime.now());
+  public Statistic(Long time) {
+		setDateTime(DateUtil.convertToLocalDateTime(time));
 		setSum(0d);
 		setAvg(0d);
 		setMax(Double.MIN_VALUE);

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.stats.model.Transaction;
+import br.stats.model.TransactionJson;
 import br.stats.service.TransactionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,7 +44,7 @@ public class TransactionApi {
     @RequestMapping(value = "/transactions",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> addTransaction(@ApiParam(value = "Transaction" ,required=true )  @Valid @RequestBody Transaction body){
+    ResponseEntity<Void> addTransaction(@ApiParam(value = "Transaction" ,required=true )  @Valid @RequestBody TransactionJson body){
     	try {
         	transactionService.addTransaction(body);
     	} catch(Exception e) {

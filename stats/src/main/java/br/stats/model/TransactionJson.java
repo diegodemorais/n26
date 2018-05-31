@@ -15,21 +15,23 @@ import io.swagger.annotations.ApiModelProperty;
  * Transaction
  */
 @Validated
-public class Transaction   {
+public class TransactionJson   {
+  @JsonProperty("amount")
   private Double amount = null;
 
-  private LocalDateTime date = null;
+  @JsonProperty("timestamp")
+  private Long timestamp = null;
   
-  public Transaction(){
+  public TransactionJson(){
   }
   
-  public Transaction(Double amount, LocalDateTime date) {
+  public TransactionJson(Double amount, Long timestamp) {
 	  setAmount(amount);
-	  setDate(date);
+	  setTimestamp(timestamp);
   }
   
   
-  public Transaction amount(Double amount) {
+  public TransactionJson amount(Double amount) {
     this.amount = amount;
     return this;
   }
@@ -38,6 +40,8 @@ public class Transaction   {
    * Get amount
    * @return amount
   **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
 
   public Double getAmount() {
@@ -48,23 +52,25 @@ public class Transaction   {
     this.amount = amount;
   }
 
-  public Transaction date(LocalDateTime date) {
-    this.date = date;
+  public TransactionJson date(Long timestamp) {
+    this.timestamp = timestamp;
     return this;
   }
 
   /**
-   * Get date
-   * @return date
+   * Get timestamp
+   * @return timestamp
   **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
 
-  public LocalDateTime getDate() {
-    return date;
+  public Long getTimestamp() {
+    return timestamp;
   }
 
-  public void setDate(LocalDateTime date) {
-    this.date = date;
+  public void setTimestamp(Long timestamp) {
+    this.timestamp = timestamp;
   }
 
 
@@ -76,14 +82,14 @@ public class Transaction   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Transaction transaction = (Transaction) o;
+    TransactionJson transaction = (TransactionJson) o;
     return Objects.equals(this.amount, transaction.amount) &&
-        Objects.equals(this.date, transaction.date);
+        Objects.equals(this.timestamp, transaction.timestamp);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(amount, date);
+    return Objects.hash(amount, timestamp);
   }
 
   @Override
@@ -92,7 +98,7 @@ public class Transaction   {
     sb.append("class Transaction {\n");
     
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
-    sb.append("    date: ").append(toIndentedString(date)).append("\n");
+    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
     sb.append("}");
     return sb.toString();
   }
